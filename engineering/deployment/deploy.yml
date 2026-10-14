@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../../../../conventions/deployment/descriptor/deploy.schema.json
+# What this product deploys: its services, how each builds, what changes it and which sites it serves.
+# Format and rules: wow-two-ws/conventions/deployment/descriptor/deploy-descriptor.md. Hostnames, secrets and
+# environments live in Wheelhouse targets, never here. Paths are relative to engineering/.
+#
+# WheelhouseCanary is the sample app Wheelhouse deploys to its own dev, test and prod environments to prove every
+# deployment flow before a Wheelhouse release is promoted.
+descriptor: 1
+product: wheelhousecanary
+platform: linux/amd64
+shared:
+  - codebase/wheelhouse-canary.backend-services/Directory.*.props
+  - codebase/wheelhouse-canary.backend-services/global.json
+services:
+  canary:
+    build:
+      dockerfile: deployment/Dockerfile
+    paths:
+      - codebase/wheelhouse-canary.backend-services/**
+      - codebase/wheelhouse-canary.frontend-services/**
+    health: /health
+    memory: 256m
+    settings:
+      required:
+        - DatabaseSettings:ConnectionString
+        - Canary:Label
+    needs: [postgres]
+    sites:
+      app: { exposure: private }

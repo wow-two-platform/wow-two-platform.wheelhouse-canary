@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WheelhouseCanary.Application\WheelhouseCanary.Application.csproj" />
+    <ProjectReference Include="..\WheelhouseCanary.Domain\WheelhouseCanary.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

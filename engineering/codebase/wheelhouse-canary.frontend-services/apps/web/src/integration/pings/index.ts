@@ -1,0 +1,1 @@
+export { pingsApi } from './PingsApi';

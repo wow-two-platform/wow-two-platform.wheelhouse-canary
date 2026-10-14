@@ -1,0 +1,54 @@
+# Called once by push delivery (publish-docker-image), and directly for pull requests. The backend build also builds
+# the Vue app into wwwroot, which the SPA-serving E2E tests read.
+name: ci
+
+on:
+  pull_request:
+  workflow_call:
+    inputs:
+      commit:
+        description: Immutable commit selected by the delivery workflow
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit || github.sha }}
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: engineering/codebase/wheelhouse-canary.backend-services/global.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: engineering/codebase/wheelhouse-canary.frontend-services/.nvmrc
+      - run: npm install --global pnpm@10.33.2
+      # Unit, migration and E2E tiers; Testcontainers uses the runner's Docker.
+      - run: dotnet test engineering/codebase/wheelhouse-canary.backend-services/WheelhouseCanary.BackendServices.slnx
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: engineering/codebase/wheelhouse-canary.frontend-services
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: engineering/codebase/wheelhouse-canary.frontend-services/.nvmrc
+      - run: npm install --global pnpm@10.33.2
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
+      # Type-checks every component, then builds the production bundle.
+      - run: pnpm build

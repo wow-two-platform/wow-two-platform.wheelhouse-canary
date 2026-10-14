@@ -1,0 +1,36 @@
+<Project>
+
+  <!--
+    Central Package Management — one version per package for the whole solution.
+    Project .csproj files reference packages by name only (no Version attribute).
+    https://learn.microsoft.com/nuget/consume-packages/central-package-management
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <BackendSdkVersion>10.0.64-beta</BackendSdkVersion>
+  </PropertyGroup>
+
+  <!-- Backend SDK: one family, bumped together. Mediator, AppResult, ApiResponse, Postgres host floor, bespoke SQL migrator. -->
+  <ItemGroup>
+    <PackageVersion Include="WoW2.Sdk.Backend.Beta" Version="$(BackendSdkVersion)" />
+    <PackageVersion Include="WoW2.Sdk.Backend.Beta.Testing" Version="$(BackendSdkVersion)" />
+    <PackageVersion Include="WoW2.Sdk.Backend.Beta.Testing.Data" Version="$(BackendSdkVersion)" />
+  </ItemGroup>
+
+  <!-- Data access and validation. Floors satisfy the SDK's transitive minimums (no downgrades). -->
+  <ItemGroup>
+    <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
+    <PackageVersion Include="FluentValidation" Version="12.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+  </ItemGroup>
+
+  <!-- Tests. -->
+  <ItemGroup>
+    <PackageVersion Include="AwesomeAssertions" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="xunit" Version="2.9.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+</Project>

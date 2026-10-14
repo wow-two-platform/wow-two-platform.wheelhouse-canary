@@ -1,0 +1,27 @@
+# Build context = engineering/codebase/ (parent of wheelhouse-canary.backend-services + wheelhouse-canary.frontend-services).
+
+# Build outputs — restored/rebuilt fresh inside the image
+**/bin
+**/obj
+**/dist
+**/node_modules
+**/logs
+
+# Locally-deployed SPA — the spa stage rebuilds it from source
+wheelhouse-canary.backend-services/WheelhouseCanary.Api/wwwroot
+
+# Local settings and secrets — never baked into an image layer
+**/.env*
+**/appsettings.Local.json
+**/appsettings.Development.json
+**/*.pfx
+**/*.pem
+**/*.key
+
+# IDE / VCS / OS cruft
+**/.vs
+**/.idea
+**/.vite
+**/.git
+**/*.user
+**/.DS_Store

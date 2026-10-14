@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Services/">
+    <Project Path="WheelhouseCanary.Api/WheelhouseCanary.Api.csproj" />
+    <Project Path="WheelhouseCanary.Application/WheelhouseCanary.Application.csproj" />
+    <Project Path="WheelhouseCanary.Domain/WheelhouseCanary.Domain.csproj" />
+    <Project Path="WheelhouseCanary.Infrastructure/WheelhouseCanary.Infrastructure.csproj" />
+    <Project Path="WheelhouseCanary.Persistence/WheelhouseCanary.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/WheelhouseCanary.Tests.E2E/WheelhouseCanary.Tests.E2E.csproj" />
+    <Project Path="tests/WheelhouseCanary.Tests.Migrations/WheelhouseCanary.Tests.Migrations.csproj" />
+    <Project Path="tests/WheelhouseCanary.Tests.Unit/WheelhouseCanary.Tests.Unit.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <!-- SDK: AppResult.Match + ApiResponse for the controllers, AddApiDefaults for the host floor. -->
+    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WheelhouseCanary.Application\WheelhouseCanary.Application.csproj" />
+    <ProjectReference Include="..\WheelhouseCanary.Infrastructure\WheelhouseCanary.Infrastructure.csproj" />
+    <ProjectReference Include="..\WheelhouseCanary.Persistence\WheelhouseCanary.Persistence.csproj" />
+    <ProjectReference Include="..\WheelhouseCanary.Domain\WheelhouseCanary.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- wheelhouse-canary.frontend-services (the pnpm workspace) is a sibling of wheelhouse-canary.backend-services under engineering/codebase/. -->
+    <SpaRoot>$(MSBuildProjectDirectory)/../../wheelhouse-canary.frontend-services/</SpaRoot>
+    <SpaEnabled Condition="'$(BuildSpa)' != 'false' and '$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true'">true</SpaEnabled>
+  </PropertyGroup>
+  <!-- Reinstalls packages only when the lockfile changed since the last install. -->
+  <Target Name="RestoreSpa" Condition="'$(SpaEnabled)' == 'true'"
+          Inputs="$(SpaRoot)pnpm-lock.yaml" Outputs="$(SpaRoot)node_modules/.modules.yaml">
+    <Error Condition="!Exists('$(SpaRoot)package.json')" Text="SpaRoot must point to the frontend workspace." />
+    <Exec Command="pnpm install --frozen-lockfile" WorkingDirectory="$(SpaRoot)" />
+  </Target>
+  <!-- Builds the Vue workspace into wwwroot, so one build yields the single host that serves API + SPA. -->
+  <Target Name="BuildSpa" DependsOnTargets="RestoreSpa" BeforeTargets="PrepareForBuild;ResolveProjectStaticWebAssets"
+          Condition="'$(SpaEnabled)' == 'true'">
+    <Exec Command="pnpm run deploy" WorkingDirectory="$(SpaRoot)" />
+    <ItemGroup>
+      <Content Remove="@(Content)"
+               Condition="$([System.String]::Copy('%(Content.Identity)').Replace('\', '/').StartsWith('wwwroot/'))" />
+      <Content Include="wwwroot/**/*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+
+</Project>

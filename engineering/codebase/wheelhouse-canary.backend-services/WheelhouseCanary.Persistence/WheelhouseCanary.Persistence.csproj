@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- SQL migrator engine (Data.Migrations.Bespoke) and the Postgres host floor ship in the SDK. -->
+    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <!-- EF Core (Npgsql provider) is a pure mapper over the SQL-owned schema; snake_case naming. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="EFCore.NamingConventions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WheelhouseCanary.Application\WheelhouseCanary.Application.csproj" />
+    <ProjectReference Include="..\WheelhouseCanary.Domain\WheelhouseCanary.Domain.csproj" />
+  </ItemGroup>
+
+  <!-- SQL migrations ship embedded (logical name "Migrations/NNN-name/Apply.sql"), resolved by the SDK migrator. -->
+  <ItemGroup>
+    <!-- Exclude Dev/ drafts — unpromoted dev SQL must never ship in the binary. -->
+    <EmbeddedResource Include="Migrations\**\*.sql" Exclude="Migrations\Dev\**\*.sql">
+      <LogicalName>Migrations/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

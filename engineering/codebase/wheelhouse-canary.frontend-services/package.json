@@ -1,0 +1,23 @@
+{
+  "name": "wheelhousecanary-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Private frontend workspace for WheelhouseCanary.",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=24.11.0 <25"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @wheelhousecanary/web dev",
+    "dev:http": "pnpm --filter @wheelhousecanary/web dev:http",
+    "typecheck": "pnpm --filter @wheelhousecanary/web typecheck",
+    "build": "pnpm --filter @wheelhousecanary/web build",
+    "preview": "pnpm --filter @wheelhousecanary/web preview",
+    "test": "pnpm --filter @wheelhousecanary/web test",
+    "format": "pnpm --filter @wheelhousecanary/web format",
+    "format:check": "pnpm --filter @wheelhousecanary/web format:check",
+    "lint": "pnpm --filter @wheelhousecanary/web lint",
+    "deploy": "pnpm build && node scripts/deploy.mjs"
+  }
+}

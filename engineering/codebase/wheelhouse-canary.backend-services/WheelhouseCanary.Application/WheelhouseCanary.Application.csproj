@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- SDK brings the ASP.NET Core shared framework transitively (validation seam / result carriers). -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WheelhouseCanary.Domain\WheelhouseCanary.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

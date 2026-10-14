@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <!--
+    E2E tier — boots the real WheelhouseCanary.Api host in-process (WebApplicationFactory via the SDK WebApiTestHost)
+    against an ephemeral PostgreSQL container (Docker); the bespoke SQL migrator builds the schema on boot.
+    The SDK testing package brings xunit, AwesomeAssertions, Testcontainers and Respawn transitively.
+  -->
+  <ItemGroup>
+    <PackageReference Include="WoW2.Sdk.Backend.Beta.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WheelhouseCanary.Api\WheelhouseCanary.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
