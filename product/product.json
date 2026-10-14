@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../../conventions/design/identity/product.schema.json",
+  "manifest": 1,
+  "name": "Wheelhouse Canary",
+  "description": "The sample app Wheelhouse deploys to dev, test and prod to prove every deployment flow before a release.",
+  "homepage": "https://github.com/wow-two-platform/wow-two-platform.wheelhouse-canary"
+}
