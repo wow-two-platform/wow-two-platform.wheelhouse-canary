@@ -1,7 +1,7 @@
 # wow-two-platform.wheelhouse-canary
 
 The smallest real app Wheelhouse can deploy: a Vue page over a .NET API and a PostgreSQL database, served from one host.
-Wheelhouse dev deploys it to its own dev, test and prod environments to prove every deployment flow before a Wheelhouse release is promoted.
+Wheelhouse dev deploys it to its own dev and prod environments to prove every deployment flow before a Wheelhouse release is promoted.
 
 The page lists the latest twenty pings, adds one, and shows the running app and API versions and the environment's label.
 

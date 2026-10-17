@@ -1,6 +1,6 @@
 # wow-two-platform.wheelhouse-canary
 
-The minimal sample app (Vue + .NET + PostgreSQL) that Wheelhouse deploys to its own dev, test and prod environments
+The minimal sample app (Vue + .NET + PostgreSQL) that Wheelhouse deploys to its own dev and prod environments
 to prove every deployment flow before a Wheelhouse release is promoted. Keep it tiny: a feature belongs here only
 when a deployment flow needs it to prove something.
 

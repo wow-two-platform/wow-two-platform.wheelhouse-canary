@@ -3,7 +3,7 @@
 # Format and rules: wow-two-ws/conventions/deployment/descriptor/deploy-descriptor.md. Hostnames, secrets and
 # environments live in Wheelhouse targets, never here. Paths are relative to engineering/.
 #
-# WheelhouseCanary is the sample app Wheelhouse deploys to its own dev, test and prod environments to prove every
+# WheelhouseCanary is the sample app Wheelhouse deploys to its own dev and prod environments to prove every
 # deployment flow before a Wheelhouse release is promoted.
 descriptor: 1
 product: wheelhousecanary

@@ -1,9 +1,9 @@
 # Builds and publishes WheelhouseCanary like every product, through the shared workflow in wow-two-platform.pipelines:
 #   main          → release vX.Y.Z (X.Y from the newest version-track folder), bundle on the GitHub release
-#   dev / test    → pre-release under dev-latest / test-latest; other branches → candidate sha-<commit>
+#   other branches → candidate sha-<commit> (pipelines v0.2.0; trunk only, no dev or test branch)
 #   workflow_dispatch → a candidate for one commit that has no build yet
 # One push event tests/builds its final SHA once, regardless of its commit count.
-# There is no deploy job: Wheelhouse dev, test and prod deploy the published bundle, which is what this app exists to prove.
+# There is no deploy job: Wheelhouse deploys the published bundle to dev, then promotes it to prod, which is what this app exists to prove.
 name: publish-docker-image
 
 on:
@@ -59,6 +59,6 @@ jobs:
   publish:
     needs: current
     if: needs.current.outputs.eligible == 'true'
-    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/publish.yml@v0.1.0
+    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/publish.yml@v0.2.0
     with:
       commit: ${{ inputs.commit }}
