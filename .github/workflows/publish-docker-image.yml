@@ -1,14 +1,18 @@
-# Builds and publishes WheelhouseCanary like every product, through the shared workflow in wow-two-platform.pipelines:
+# Verifies, builds and publishes WheelhouseCanary like every product, through the shared delivery workflow in
+# wow-two-platform.pipelines (current → plan → ci → publish):
 #   main          → release vX.Y.Z (X.Y from the newest version-track folder), bundle on the GitHub release
-#   other branches → candidate sha-<commit> (pipelines v0.2.0; trunk only, no dev or test branch)
+#   other branches → candidate sha-<commit>; trunk only, no dev or test branch
 #   workflow_dispatch → a candidate for one commit that has no build yet
-# One push event tests/builds its final SHA once, regardless of its commit count.
-# There is no deploy job: Wheelhouse deploys the published bundle to dev, then promotes it to prod, which is what this app exists to prove.
+#   pull request  → ci only
+# A push that changes only docs, planning or markdown runs no build, test or publish; its gate still passes.
+# There is no deploy job: Wheelhouse deploys the published bundle to dev, then promotes it to prod, which is what this
+# app exists to prove.
 name: publish-docker-image
 
 on:
   push:
-    branches: ['**']
+    branches: ['**', '!renovate/**']
+  pull_request:
   workflow_dispatch:
     inputs:
       commit:
@@ -22,43 +26,23 @@ permissions:
 
 concurrency:
   group: delivery-${{ github.repository }}-${{ inputs.commit || github.ref }}
-  cancel-in-progress: false
+  # main queues, so each release reads the tag the previous one created; other refs cancel a superseded run.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main') }}
   queue: max
 
 jobs:
-  verify:
-    uses: ./.github/workflows/ci.yml
-    with:
-      commit: ${{ inputs.commit || github.sha }}
-
-  current:
-    needs: verify
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      eligible: ${{ steps.head.outputs.eligible }}
-    steps:
-      - name: Skip superseded main pushes and old reruns
-        id: head
-        env:
-          GH_TOKEN: ${{ github.token }}
-          EVENT: ${{ github.event_name }}
-          REF: ${{ github.ref }}
-          COMMIT: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          eligible=true
-          if [ "$EVENT" = push ] && [ "$REF" = refs/heads/main ]; then
-            head=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
-            [ "$COMMIT" = "$head" ] || eligible=false
-          fi
-          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
-          [ "$eligible" = true ] || echo 'Superseded main push: publication skipped.' >> "$GITHUB_STEP_SUMMARY"
-
-  publish:
-    needs: current
-    if: needs.current.outputs.eligible == 'true'
-    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/publish.yml@v0.8.0
+  delivery:
+    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/delivery.yml@e7d8d62111b300a1cbba5a1d69da30cc537b0bc6
     with:
       commit: ${{ inputs.commit }}
+      # The backend build also builds the Vue app into wwwroot, which the SPA-serving E2E tests read.
+      backends: |
+        [{"name": "Backend", "dotnet": "engineering/codebase/wheelhouse-canary.backend-services/global.json",
+          "node": "engineering/codebase/wheelhouse-canary.frontend-services/.nvmrc",
+          "run": "dotnet test engineering/codebase/wheelhouse-canary.backend-services/WheelhouseCanary.BackendServices.slnx",
+          "paths": ["engineering/codebase/wheelhouse-canary.backend-services/**",
+                    "engineering/codebase/wheelhouse-canary.frontend-services/**"]}]
+      frontends: |
+        [{"name": "Frontend", "dir": "engineering/codebase/wheelhouse-canary.frontend-services",
+          "scripts": ["lint", "test", "build"],
+          "paths": ["engineering/codebase/wheelhouse-canary.frontend-services/**"]}]
