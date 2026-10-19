@@ -39,5 +39,9 @@ services:
         - DatabaseSettings:ConnectionString
         - Canary:Label
     needs: [postgres]
+    # The bundle services canary starts after, once each is healthy: none, since its one dependency, PostgreSQL, is a
+    # platform service under needs. A second service here would list canary to start after it, and canary's updates
+    # would never restart it (pipelines v0.6.0).
+    dependsOn: []
     sites:
       app: { exposure: private }
