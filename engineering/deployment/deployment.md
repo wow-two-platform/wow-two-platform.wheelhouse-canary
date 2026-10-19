@@ -20,6 +20,9 @@ How WheelhouseCanary ships. Descriptor format: wow-two-ws/conventions/deployment
   `appsettings.Development.json`, since the canary has no Development default.
 - Dev check: after a dev rollout succeeds, the runner runs `verify` — `curl` from the canary's own image against
   `$VERIFY_SERVICE_CANARY/health` and `/api/pings` — and auto-promote takes the release only when it passed.
+  The URL carries the service's platform-network name, which a target's `AllowedHosts` (public host plus `localhost`)
+  does not allow, so each request sends `Host: localhost`; without it host filtering answers 400.
+  `HostFilteringTests` runs the E2E host under such an `AllowedHosts` and replays the descriptor's requests.
 
 ## Local image check
 

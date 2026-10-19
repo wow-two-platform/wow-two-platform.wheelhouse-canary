@@ -12,6 +12,9 @@ public sealed class CanaryApiFixture : MultiHostFixture, IAsyncLifetime
     /// <summary>Holds the environment label the test host reports.</summary>
     public const string Label = "e2e";
 
+    /// <summary>Holds the public host the test target allows, beside <c>localhost</c>, as a deployed target's <c>AllowedHosts</c> does.</summary>
+    public const string PublicHost = "canary.example.test";
+
     private readonly PostgresFixture postgres;
 
     public CanaryApiFixture()
@@ -24,6 +27,7 @@ public sealed class CanaryApiFixture : MultiHostFixture, IAsyncLifetime
                 ["DatabaseSettings:ConnectionString"] = postgres.ConnectionString,
                 ["DB_CONNECTION"] = postgres.ConnectionString,
                 ["Canary:Label"] = Label,
+                ["AllowedHosts"] = PublicHost + ";localhost",
                 ["Logging:LogLevel:Default"] = "Warning",
             }),
         });

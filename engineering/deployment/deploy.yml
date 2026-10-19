@@ -11,15 +11,19 @@ platform: linux/amd64
 # Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Local.json.
 dotnetEnvironment: true
 # The sample dev check: once a dev rollout succeeds, the canary's own image asks the service for its health and its
-# pings over the platform network. A pass lets auto-promote take the release.
+# pings over the platform network. A pass lets auto-promote take the release. Each request carries the probe Host
+# (localhost): a target's AllowedHosts names its public host plus localhost, so the service's platform-network name
+# in the URL would answer 400 from host filtering.
 verify:
   service: canary
   command:
     - sh
     - -c
     - >-
-      curl --fail --silent --show-error --max-time 10 --output /dev/null "$VERIFY_SERVICE_CANARY/health"
-      && curl --fail --silent --show-error --max-time 10 --output /dev/null "$VERIFY_SERVICE_CANARY/api/pings"
+      curl --fail --silent --show-error --max-time 10 --header "Host: localhost" --output /dev/null
+      "$VERIFY_SERVICE_CANARY/health"
+      && curl --fail --silent --show-error --max-time 10 --header "Host: localhost" --output /dev/null
+      "$VERIFY_SERVICE_CANARY/api/pings"
       && echo "health and pings answered"
   timeout: 1m
 shared:
