@@ -16,6 +16,6 @@ permissions:
 
 jobs:
   codeql:
-    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/codeql.yml@d519b44704ff137cd32704d286e111636dff8cc1
+    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/codeql.yml@v0.9.0
     with:
       languages: '["csharp", "javascript-typescript", "actions"]'
