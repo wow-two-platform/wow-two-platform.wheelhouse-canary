@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=../../../../../conventions/deployment/descriptor/deploy.schema.json
-# What this product deploys: its services, how each builds, what changes it and which sites it serves.
+# What this product deploys: its sites, its services, how each builds, what changes it and which paths it serves.
 # Format and rules: wow-two-ws/conventions/deployment/descriptor/deploy-descriptor.md. Hostnames, secrets and
 # environments live in Wheelhouse targets, never here. Paths are relative to engineering/.
 #
 # WheelhouseCanary is the sample app Wheelhouse deploys to its own dev and prod environments to prove every
 # deployment flow before a Wheelhouse release is promoted.
-descriptor: 1
+descriptor: 2
 product: wheelhousecanary
 platform: linux/amd64
 # Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Local.json.
@@ -26,6 +26,9 @@ verify:
       "$VERIFY_SERVICE_CANARY/api/pings"
       && echo "health and pings answered"
   timeout: 1m
+# One private site; Wheelhouse binds it to the environment's tailnet host (pipelines v0.8.0, descriptor 2).
+sites:
+  app: { primary: true, exposure: private }
 shared:
   - codebase/wheelhouse-canary.backend-services/Directory.*.props
   - codebase/wheelhouse-canary.backend-services/global.json
@@ -47,5 +50,6 @@ services:
     # platform service under needs. A second service here would list canary to start after it, and canary's updates
     # would never restart it (pipelines v0.6.0).
     dependsOn: []
+    # The Vue app at /, and the API under the same host's /api: /api routes ahead of /, never /apiary.
     sites:
-      app: { exposure: private }
+      app: { paths: [/, /api] }
