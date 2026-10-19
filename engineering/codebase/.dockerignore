@@ -13,6 +13,7 @@ wheelhouse-canary.backend-services/WheelhouseCanary.Api/wwwroot
 # Local settings and secrets — never baked into an image layer
 **/.env*
 **/appsettings.Local.json
+**/appsettings.Target.json
 **/appsettings.Machine.json
 **/*.pfx
 **/*.pem

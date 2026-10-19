@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using WheelhouseCanary.Api.Pings.Requests;
 using WheelhouseCanary.Application.Pings.Models;
 using WheelhouseCanary.Application.Pings.Queries;
-using WoW.Two.Sdk.Backend.Beta.Mediator;
-using WoW.Two.Sdk.Backend.Beta.Web.Contracts;
-using WoW.Two.Sdk.Backend.Beta.Web.ExceptionHandling.Extensions;
+using WoW.Two.Sdk.Beta.Be.Mediator;
+using WoW.Two.Sdk.Beta.Be.Web.Contracts;
+using WoW.Two.Sdk.Beta.Be.Web.ExceptionHandling.Extensions;
 
 namespace WheelhouseCanary.Api.Pings.Controllers;
 

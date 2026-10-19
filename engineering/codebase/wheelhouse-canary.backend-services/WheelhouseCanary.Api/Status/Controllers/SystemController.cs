@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WheelhouseCanary.Api.Status.Models;
-using WoW.Two.Sdk.Backend.Beta.Web.Contracts;
+using WoW.Two.Sdk.Beta.Be.Web.Contracts;
 
 namespace WheelhouseCanary.Api.Status.Controllers;
 

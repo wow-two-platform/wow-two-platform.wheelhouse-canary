@@ -7,14 +7,14 @@
   -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <BackendSdkVersion>10.0.64-beta</BackendSdkVersion>
+    <BackendSdkVersion>10.0.71-beta</BackendSdkVersion>
   </PropertyGroup>
 
-  <!-- Backend SDK: one family, bumped together. Mediator, AppResult, ApiResponse, Postgres host floor, bespoke SQL migrator. -->
+  <!-- be sdk: one family, bumped together. Mediator, AppResult, ApiResponse, Postgres host floor, bespoke SQL migrator. -->
   <ItemGroup>
-    <PackageVersion Include="WoW2.Sdk.Backend.Beta" Version="$(BackendSdkVersion)" />
-    <PackageVersion Include="WoW2.Sdk.Backend.Beta.Testing" Version="$(BackendSdkVersion)" />
-    <PackageVersion Include="WoW2.Sdk.Backend.Beta.Testing.Data" Version="$(BackendSdkVersion)" />
+    <PackageVersion Include="WoW2.Sdk.Beta.Be" Version="$(BackendSdkVersion)" />
+    <PackageVersion Include="WoW2.Sdk.Beta.Be.Testing" Version="$(BackendSdkVersion)" />
+    <PackageVersion Include="WoW2.Sdk.Beta.Be.Testing.Data" Version="$(BackendSdkVersion)" />
   </ItemGroup>
 
   <!-- Data access and validation. Floors satisfy the SDK's transitive minimums (no downgrades). -->

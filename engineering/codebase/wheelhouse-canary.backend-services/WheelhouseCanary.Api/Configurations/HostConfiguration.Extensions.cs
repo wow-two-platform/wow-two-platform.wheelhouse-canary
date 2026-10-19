@@ -1,44 +1,21 @@
-using Microsoft.Extensions.Configuration.Json;
 using WheelhouseCanary.Api.Status;
 using WheelhouseCanary.Application.Pings.Repositories;
 using WheelhouseCanary.Infrastructure;
 using WheelhouseCanary.Persistence.DataContexts;
 using WheelhouseCanary.Persistence.Repositories;
-using WoW.Two.Sdk.Backend.Beta.Data;
-using WoW.Two.Sdk.Backend.Beta.Data.Migrations.Bespoke;
-using WoW.Two.Sdk.Backend.Beta.Mediator;
-using WoW.Two.Sdk.Backend.Beta.Mediator.ExceptionHandling;
-using WoW.Two.Sdk.Backend.Beta.Mediator.Logging;
-using WoW.Two.Sdk.Backend.Beta.Mediator.Validation;
-using WoW.Two.Sdk.Backend.Beta.Observability.HealthChecks;
-using WoW.Two.Sdk.Backend.Beta.Web.Json;
+using WoW.Two.Sdk.Beta.Be.Data;
+using WoW.Two.Sdk.Beta.Be.Data.Migrations.Bespoke;
+using WoW.Two.Sdk.Beta.Be.Mediator;
+using WoW.Two.Sdk.Beta.Be.Mediator.ExceptionHandling;
+using WoW.Two.Sdk.Beta.Be.Mediator.Logging;
+using WoW.Two.Sdk.Beta.Be.Mediator.Validation;
+using WoW.Two.Sdk.Beta.Be.Observability.HealthChecks;
+using WoW.Two.Sdk.Beta.Be.Web.Json;
 
 namespace WheelhouseCanary.Api.Configurations;
 
 public static partial class HostConfiguration
 {
-    /// <summary>Configures this machine's settings — the compose PostgreSQL an IDE run uses — right after
-    /// appsettings.{Environment}.json, on a local run whose launch profile sets MACHINE_SETTINGS=true. Deployed dev runs
-    /// as Development too, so DEPLOY_ENVIRONMENT (the runner sets it) tells a deployed host; tests never set the flag.</summary>
-    private static WebApplicationBuilder AddMachineSettings(this WebApplicationBuilder builder)
-    {
-        var configuration = builder.Configuration;
-        if (!builder.Environment.IsDevelopment() || !string.IsNullOrWhiteSpace(configuration["DEPLOY_ENVIRONMENT"])
-            || !bool.TryParse(configuration["MACHINE_SETTINGS"], out var machine) || !machine)
-            return builder;
-
-        var environmentFile = "appsettings." + builder.Environment.EnvironmentName + ".json";
-        var sources = configuration.Sources;
-        var after = sources.ToList().FindLastIndex(source => source is JsonConfigurationSource { Path: var path }
-            && string.Equals(path, environmentFile, StringComparison.OrdinalIgnoreCase));
-        sources.Insert(after + 1, new JsonConfigurationSource
-        {
-            Path = "appsettings.Machine.json", Optional = true, ReloadOnChange = false,
-            FileProvider = configuration.GetFileProvider(),
-        });
-        return builder;
-    }
-
     /// <summary>Registers the Postgres host floor for <see cref="WheelhouseCanaryDbContext"/>, its readiness probe and the migration version stamp.</summary>
     private static WebApplicationBuilder AddPostgresDatabase(this WebApplicationBuilder builder)
     {

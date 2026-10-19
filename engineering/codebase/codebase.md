@@ -19,7 +19,7 @@ The code lives in `wheelhouse-canary.backend-services/` (.NET) and `wheelhouse-c
 
 - Run `dotnet test` from the backend folder. The Migrations and E2E tiers need Docker.
 - The Api build runs `pnpm run deploy`, which builds the Vue app into `WheelhouseCanary.Api/wwwroot/` (gitignored); `-p:BuildSpa=false` skips it.
-- The connection string is `DatabaseSettings:ConnectionString` (or `DB_CONNECTION`); the environment label is `Canary:Label`. A deployed environment supplies both through `appsettings.Local.json`.
+- The connection string is `DatabaseSettings:ConnectionString` (or `DB_CONNECTION`); the environment label is `Canary:Label`. A deployed environment supplies both through the `appsettings.Target.json` its bundle mounts.
 - `appsettings.Development.json` points an IDE run at the compose database on loopback `8374` with local-only credentials.
 
 ## Frontend

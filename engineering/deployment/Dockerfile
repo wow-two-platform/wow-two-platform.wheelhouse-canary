@@ -6,7 +6,7 @@
 #   docker build -f engineering/deployment/Dockerfile -t wheelhouse-canary:local engineering/codebase
 #
 # The image holds no environment: the database connection string and the label arrive at run time, through the
-# environment's settings file (/app/appsettings.Local.json) or the DB_CONNECTION variable.
+# environment's settings file (/app/appsettings.Target.json) or the DB_CONNECTION variable.
 
 # ---- Stage 1: build the Vue workspace ----
 FROM node:24.11.0-alpine AS spa

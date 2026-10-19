@@ -8,7 +8,7 @@
 descriptor: 1
 product: wheelhousecanary
 platform: linux/amd64
-# Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Machine.json.
+# Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Local.json.
 dotnetEnvironment: true
 # The sample dev check: once a dev rollout succeeds, the canary's own image asks the service for its health and its
 # pings over the platform network. A pass lets auto-promote take the release.

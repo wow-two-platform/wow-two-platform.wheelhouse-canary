@@ -5,7 +5,7 @@ using WheelhouseCanary.Application.Pings.Repositories;
 using WheelhouseCanary.Domain.Pings.Entities;
 using WheelhouseCanary.Infrastructure.Pings.CommandHandlers;
 using WheelhouseCanary.Infrastructure.Pings.QueryHandlers;
-using WoW.Two.Sdk.Backend.Beta.Mediator.Result;
+using WoW.Two.Sdk.Beta.Be.Mediator.Result;
 
 namespace WheelhouseCanary.Tests.Unit;
 

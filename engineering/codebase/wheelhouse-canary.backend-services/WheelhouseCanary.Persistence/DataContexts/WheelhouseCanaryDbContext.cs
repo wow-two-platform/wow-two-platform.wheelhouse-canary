@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WheelhouseCanary.Domain.Pings.Entities;
-using WoW.Two.Sdk.Backend.Beta.Data.EntityFrameworkCore;
+using WoW.Two.Sdk.Beta.Be.Data.EntityFrameworkCore;
 
 namespace WheelhouseCanary.Persistence.DataContexts;
 

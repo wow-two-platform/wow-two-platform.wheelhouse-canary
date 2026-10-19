@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <!-- Entity trait interfaces (IKeyedEntity / IHasTableName / ICreationAuditable), transitive from the SDK's Data.Abstractions. -->
-    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be" />
   </ItemGroup>
 
 </Project>

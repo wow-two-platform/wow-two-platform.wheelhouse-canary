@@ -3,7 +3,7 @@
   <ItemGroup>
     <!-- SDK brings the ASP.NET Core shared framework transitively (validation seam / result carriers). -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be" />
     <PackageReference Include="FluentValidation" />
   </ItemGroup>
 

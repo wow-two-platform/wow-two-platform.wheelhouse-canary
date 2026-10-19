@@ -1,6 +1,6 @@
 using WheelhouseCanary.Application;
-using WoW.Two.Sdk.Backend.Beta.Data;
-using WoW.Two.Sdk.Backend.Beta.Meta;
+using WoW.Two.Sdk.Beta.Be.Data;
+using WoW.Two.Sdk.Beta.Be.Meta;
 
 namespace WheelhouseCanary.Api.Configurations;
 
@@ -11,12 +11,9 @@ public static partial class HostConfiguration
     /// <param name="builder">The web application builder to configure.</param>
     public static WebApplicationBuilder Configure(this WebApplicationBuilder builder)
     {
-        // This machine's settings on a local run, then the per-environment settings file the runner mounts
-        // (deploy.yml settings.file); both absent in deployed dev's image and in tests.
-        builder.AddMachineSettings();
-        builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: false);
-
-        // Lay the SDK boot floor before any product seam; the Vue app is served from the same host.
+        // Lay the SDK boot floor before any product seam; the Vue app is served from the same host. It reads the settings
+        // file a target mounts (appsettings.Target.json) and, on a local run, this machine's (appsettings.Local.json)
+        // before the options below; neither sits in the image or reaches tests.
         builder.AddApiDefaults(options =>
         {
             options.ServiceName = "wheelhouse-canary";

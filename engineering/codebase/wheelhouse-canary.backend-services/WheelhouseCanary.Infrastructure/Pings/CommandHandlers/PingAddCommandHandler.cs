@@ -3,8 +3,8 @@ using WheelhouseCanary.Application.Pings.Models;
 using WheelhouseCanary.Application.Pings.Repositories;
 using WheelhouseCanary.Domain.Pings.Entities;
 using WheelhouseCanary.Infrastructure.Pings.Extensions;
-using WoW.Two.Sdk.Backend.Beta.Mediator.Cqrs;
-using WoW.Two.Sdk.Backend.Beta.Mediator.Result;
+using WoW.Two.Sdk.Beta.Be.Mediator.Cqrs;
+using WoW.Two.Sdk.Beta.Be.Mediator.Result;
 
 namespace WheelhouseCanary.Infrastructure.Pings.CommandHandlers;
 

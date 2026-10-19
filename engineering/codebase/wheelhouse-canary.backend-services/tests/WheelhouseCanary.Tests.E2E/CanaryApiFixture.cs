@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Testcontainers.PostgreSql;
-using WoW.Two.Sdk.Backend.Beta.Testing;
-using WoW.Two.Sdk.Backend.Beta.Testing.Containers.Postgres;
-using WoW.Two.Sdk.Backend.Beta.Testing.MultiHost;
+using WoW.Two.Sdk.Beta.Be.Testing;
+using WoW.Two.Sdk.Beta.Be.Testing.Containers.Postgres;
+using WoW.Two.Sdk.Beta.Be.Testing.MultiHost;
 
 namespace WheelhouseCanary.Tests.E2E;
 

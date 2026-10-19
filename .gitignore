@@ -7,8 +7,10 @@ node_modules/
 *.tsbuildinfo
 **/logs/
 
-# Local settings + secrets; appsettings.Machine.json is this machine's, read by an IDE run only
+# Settings + secrets: appsettings.Local.json is this machine's, read by an IDE run only; appsettings.Target.json a
+# target's, mounted at deploy; appsettings.Machine.json the machine file's retired name
 **/appsettings.Local.json
+**/appsettings.Target.json
 **/appsettings.Machine.json
 .env
 

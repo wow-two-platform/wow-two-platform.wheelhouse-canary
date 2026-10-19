@@ -1,8 +1,8 @@
 using AwesomeAssertions;
 using WheelhouseCanary.Persistence.DataContexts;
-using WoW.Two.Sdk.Backend.Beta.Data.Migrations.Bespoke;
-using WoW.Two.Sdk.Backend.Beta.Foundation.Results;
-using WoW.Two.Sdk.Backend.Beta.Testing.Data.Migrations;
+using WoW.Two.Sdk.Beta.Be.Data.Migrations.Bespoke;
+using WoW.Two.Sdk.Beta.Be.Foundation.Results;
+using WoW.Two.Sdk.Beta.Be.Testing.Data.Migrations;
 
 namespace WheelhouseCanary.Tests.Migrations;
 

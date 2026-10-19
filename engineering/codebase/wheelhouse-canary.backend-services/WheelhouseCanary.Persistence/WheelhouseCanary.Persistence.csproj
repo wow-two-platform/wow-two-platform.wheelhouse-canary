@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <!-- SQL migrator engine (Data.Migrations.Bespoke) and the Postgres host floor ship in the SDK. -->
-    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be" />
     <!-- EF Core (Npgsql provider) is a pure mapper over the SQL-owned schema; snake_case naming. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />

@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <!-- SDK: AppResult.Match + ApiResponse for the controllers, AddApiDefaults for the host floor. -->
-    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be" />
   </ItemGroup>
 
   <ItemGroup>

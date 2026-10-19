@@ -10,8 +10,8 @@
     Rides the SDK Testing.Data harness (MigratorHarness over the drop-schema MigratorPostgresFixture).
   -->
   <ItemGroup>
-    <PackageReference Include="WoW2.Sdk.Backend.Beta.Testing.Data" />
-    <PackageReference Include="WoW2.Sdk.Backend.Beta" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be.Testing.Data" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
