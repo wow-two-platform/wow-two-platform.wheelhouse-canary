@@ -20,7 +20,7 @@ engineering/
 
 | Flow | Where |
 |---|---|
-| Image build and publish | `.github/workflows/publish-docker-image.yml` → shared `publish.yml@v0.8.0`; no deploy job |
+| CI, image build and publish | `.github/workflows/publish-docker-image.yml` → shared `delivery.yml@v0.9.0` (checks, then publish; docs-only pushes run nothing); no deploy job |
 | Release bundle and version | newest `version-track/v{X.Y}`; the page and `GET /api/system/status` report the running version |
 | Per-environment settings | `Canary:Label` and the connection string, from the environment's settings file |
 | Database and migrations | two SQL migrations in `WheelhouseCanary.Persistence/Migrations`, applied at boot |

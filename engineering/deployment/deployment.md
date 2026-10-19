@@ -10,7 +10,7 @@ How WheelhouseCanary ships. Descriptor format: wow-two-ws/conventions/deployment
 
 ## Contract with Wheelhouse
 
-- Image: `ghcr.io/wow-two-platform/wow-two-platform.wheelhouse-canary/canary`, published by `.github/workflows/publish-docker-image.yml` through the shared `publish.yml@v0.8.0`; CI never deploys.
+- Image: `ghcr.io/wow-two-platform/wow-two-platform.wheelhouse-canary/canary`, published by `.github/workflows/publish-docker-image.yml` through the shared `delivery.yml@v0.9.0`, which runs the backend and frontend checks first; CI never deploys.
 - Version: `X.Y` from the newest `planning/version-track/v{X.Y}/`; the page, the image tag and `GET /api/system/status` report the same `X.Y.Z`.
 - Settings a target must provide in the service's settings file (`/app/appsettings.Target.json`, pipelines v0.7.0): `DatabaseSettings:ConnectionString`, `Canary:Label`. The label (`dev`, `prod`) shows on the page, proving each environment read its own file.
 - Database: the host creates the database if missing and applies pending `Migrations/` before it serves, so a first deploy builds the schema and an upgrade applies only the new migrations.
