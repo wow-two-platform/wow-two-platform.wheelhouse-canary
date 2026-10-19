@@ -8,6 +8,20 @@
 descriptor: 1
 product: wheelhousecanary
 platform: linux/amd64
+# Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Machine.json.
+dotnetEnvironment: true
+# The sample dev check: once a dev rollout succeeds, the canary's own image asks the service for its health and its
+# pings over the platform network. A pass lets auto-promote take the release.
+verify:
+  service: canary
+  command:
+    - sh
+    - -c
+    - >-
+      curl --fail --silent --show-error --max-time 10 --output /dev/null "$VERIFY_SERVICE_CANARY/health"
+      && curl --fail --silent --show-error --max-time 10 --output /dev/null "$VERIFY_SERVICE_CANARY/api/pings"
+      && echo "health and pings answered"
+  timeout: 1m
 shared:
   - codebase/wheelhouse-canary.backend-services/Directory.*.props
   - codebase/wheelhouse-canary.backend-services/global.json

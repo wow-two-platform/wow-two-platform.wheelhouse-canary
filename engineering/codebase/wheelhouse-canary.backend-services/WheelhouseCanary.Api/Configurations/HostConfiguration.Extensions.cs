@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration.Json;
 using WheelhouseCanary.Api.Status;
 using WheelhouseCanary.Application.Pings.Repositories;
 using WheelhouseCanary.Infrastructure;
@@ -16,6 +17,28 @@ namespace WheelhouseCanary.Api.Configurations;
 
 public static partial class HostConfiguration
 {
+    /// <summary>Configures this machine's settings — the compose PostgreSQL an IDE run uses — right after
+    /// appsettings.{Environment}.json, on a local run whose launch profile sets MACHINE_SETTINGS=true. Deployed dev runs
+    /// as Development too, so DEPLOY_ENVIRONMENT (the runner sets it) tells a deployed host; tests never set the flag.</summary>
+    private static WebApplicationBuilder AddMachineSettings(this WebApplicationBuilder builder)
+    {
+        var configuration = builder.Configuration;
+        if (!builder.Environment.IsDevelopment() || !string.IsNullOrWhiteSpace(configuration["DEPLOY_ENVIRONMENT"])
+            || !bool.TryParse(configuration["MACHINE_SETTINGS"], out var machine) || !machine)
+            return builder;
+
+        var environmentFile = "appsettings." + builder.Environment.EnvironmentName + ".json";
+        var sources = configuration.Sources;
+        var after = sources.ToList().FindLastIndex(source => source is JsonConfigurationSource { Path: var path }
+            && string.Equals(path, environmentFile, StringComparison.OrdinalIgnoreCase));
+        sources.Insert(after + 1, new JsonConfigurationSource
+        {
+            Path = "appsettings.Machine.json", Optional = true, ReloadOnChange = false,
+            FileProvider = configuration.GetFileProvider(),
+        });
+        return builder;
+    }
+
     /// <summary>Registers the Postgres host floor for <see cref="WheelhouseCanaryDbContext"/>, its readiness probe and the migration version stamp.</summary>
     private static WebApplicationBuilder AddPostgresDatabase(this WebApplicationBuilder builder)
     {

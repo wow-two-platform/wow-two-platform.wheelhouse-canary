@@ -11,7 +11,9 @@ public static partial class HostConfiguration
     /// <param name="builder">The web application builder to configure.</param>
     public static WebApplicationBuilder Configure(this WebApplicationBuilder builder)
     {
-        // The per-environment settings file the runner mounts (deploy.yml settings.file); absent in dev and tests.
+        // This machine's settings on a local run, then the per-environment settings file the runner mounts
+        // (deploy.yml settings.file); both absent in deployed dev's image and in tests.
+        builder.AddMachineSettings();
         builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: false);
 
         // Lay the SDK boot floor before any product seam; the Vue app is served from the same host.
