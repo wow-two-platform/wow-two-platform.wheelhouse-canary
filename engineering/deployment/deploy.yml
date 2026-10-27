@@ -7,6 +7,10 @@
 # deployment flow before a Wheelhouse release is promoted.
 descriptor: 2
 product: wheelhousecanary
+# What Wheelhouse and every other reader call it (pipelines v0.11.0); it replaced product/product.json.
+name: Wheelhouse Canary
+description: The sample app Wheelhouse deploys to dev and prod to prove every deployment flow before a release.
+homepage: https://github.com/wow-two-platform/wow-two-platform.wheelhouse-canary
 platform: linux/amd64
 # Dev runs as .NET Development, prod as Production; the IDE run's database lives in appsettings.Local.json.
 dotnetEnvironment: true
