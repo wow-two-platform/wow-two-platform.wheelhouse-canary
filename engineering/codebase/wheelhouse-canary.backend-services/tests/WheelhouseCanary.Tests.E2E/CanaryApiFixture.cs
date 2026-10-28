@@ -19,7 +19,7 @@ public sealed class CanaryApiFixture : MultiHostFixture, IAsyncLifetime
 
     public CanaryApiFixture()
     {
-        postgres = AddSharedFixture(new PostgresFixture(new PostgreSqlBuilder().WithImage("postgres:16-alpine").Build()));
+        postgres = AddSharedFixture(new PostgresFixture(new PostgreSqlBuilder().WithImage("postgres:18-alpine").Build()));
         Host = AddHost(new WebApiTestHost<Program>
         {
             ConfigureConfigurationHook = configuration => configuration.AddInMemoryCollection(new Dictionary<string, string?>

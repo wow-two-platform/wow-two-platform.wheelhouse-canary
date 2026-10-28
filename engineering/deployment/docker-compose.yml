@@ -2,11 +2,12 @@
 #
 #   docker compose up -d --build     the whole stack; the app answers on http://127.0.0.1:8371
 #   docker compose up -d database    only the database, for an IDE run of WheelhouseCanary.Api (loopback 8374)
+#   docker compose down -v           once, to remove a PostgreSQL 16 volume from before the move to 18, which 18 cannot use
 #
 # The credentials are local-only; a deployed environment's connection string lives in its Wheelhouse target settings.
 services:
   database:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     environment:
       POSTGRES_DB: wheelhouse_canary
       POSTGRES_USER: canary
@@ -14,7 +15,7 @@ services:
     ports:
       - "127.0.0.1:8374:5432"
     volumes:
-      - database:/var/lib/postgresql/data
+      - database:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U canary -d wheelhouse_canary"]
       interval: 5s
