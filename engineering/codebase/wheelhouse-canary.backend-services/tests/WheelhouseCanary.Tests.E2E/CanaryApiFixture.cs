@@ -36,6 +36,9 @@ public sealed class CanaryApiFixture : MultiHostFixture, IAsyncLifetime
     /// <summary>Gets the booted API host.</summary>
     public WebApiTestHost<Program> Host { get; }
 
+    /// <summary>Gets the container's connection string; its server also holds the migrate tests' own databases.</summary>
+    public string ConnectionString => postgres.ConnectionString;
+
     /// <inheritdoc />
     protected override ValueTask InitializeStateAsync(CancellationToken cancellationToken = default) =>
         postgres.InitializeRespawnerAsync(cancellationToken);

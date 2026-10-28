@@ -6,11 +6,13 @@
 
   <!--
     E2E tier — boots the real WheelhouseCanary.Api host in-process (WebApplicationFactory via the SDK WebApiTestHost)
-    against an ephemeral PostgreSQL container (Docker); the bespoke SQL migrator builds the schema on boot.
-    The SDK testing package brings xunit, AwesomeAssertions, Testcontainers and Respawn transitively.
+    against an ephemeral PostgreSQL container (Docker); the bespoke SQL migrator builds the schema on the local boot.
+    The SDK testing package brings xunit, AwesomeAssertions, Testcontainers and Respawn transitively; Testing.Data
+    brings the verb harness that runs the image's `migrate` verbs in process.
   -->
   <ItemGroup>
     <PackageReference Include="WoW2.Sdk.Beta.Be.Testing" />
+    <PackageReference Include="WoW2.Sdk.Beta.Be.Testing.Data" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
   </ItemGroup>

@@ -20,6 +20,19 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
+  # The deploy's migrate step: the same image runs `migrate` once, and the app starts only after it succeeded, since
+  # a boot outside a local run only verifies the migration levels.
+  migrate:
+    image: wheelhouse-canary:local
+    build:
+      context: ../codebase
+      dockerfile: ../deployment/Dockerfile
+    command: ["migrate"]
+    environment:
+      DB_CONNECTION: "Host=database;Database=wheelhouse_canary;Username=canary;Password=canary"
+    depends_on:
+      database:
+        condition: service_healthy
   canary:
     image: wheelhouse-canary:local
     build:
@@ -33,6 +46,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     mem_limit: 256m
 volumes:
   database:

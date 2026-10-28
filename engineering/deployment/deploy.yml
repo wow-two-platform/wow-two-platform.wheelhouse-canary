@@ -30,6 +30,12 @@ verify:
       "$VERIFY_SERVICE_CANARY/api/pings"
       && echo "health and pings answered"
   timeout: 1m
+# The migrate step (pipelines v0.12.0): on every forward deploy, after the pull and before the service restarts,
+# Wheelhouse runs the image's be sdk verb tree in a one-off container, connected through the target's database. A
+# deployed boot only verifies the levels; a failure here leaves the running release serving.
+migrate:
+  - service: canary
+    command: [dotnet, WheelhouseCanary.Api.dll, migrate]
 # One private site; Wheelhouse binds it to the environment's tailnet host (pipelines v0.8.0, descriptor 2).
 sites:
   app: { primary: true, exposure: private }

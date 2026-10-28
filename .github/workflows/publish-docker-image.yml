@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   delivery:
-    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/delivery.yml@v0.11.0
+    uses: wow-two-platform/wow-two-platform.pipelines/.github/workflows/delivery.yml@v0.12.0
     with:
       commit: ${{ inputs.commit }}
       # The backend build also builds the Vue app into wwwroot, which the SPA-serving E2E tests read.

@@ -15,7 +15,7 @@ The code lives in `wheelhouse-canary.backend-services/` (.NET) and `wheelhouse-c
 | `WheelhouseCanary.Api` | host composition, `PingsController` (`/api/pings`), `SystemController` (`/api/system/status`), `/health` |
 | `tests/WheelhouseCanary.Tests.Unit` | handlers and validator; no I/O |
 | `tests/WheelhouseCanary.Tests.Migrations` | apply, idempotency and the Apply → Rollback → Apply round trip over PostgreSQL |
-| `tests/WheelhouseCanary.Tests.E2E` | the real host over PostgreSQL: pings, status, health and the served app |
+| `tests/WheelhouseCanary.Tests.E2E` | the real host over PostgreSQL: pings, status, health, the served app, the image's `migrate` verbs and the verify-only deployed boot |
 
 - Run `dotnet test` from the backend folder. The Migrations and E2E tiers need Docker.
 - The Api build runs `pnpm run deploy`, which builds the Vue app into `WheelhouseCanary.Api/wwwroot/` (gitignored); `-p:BuildSpa=false` skips it.

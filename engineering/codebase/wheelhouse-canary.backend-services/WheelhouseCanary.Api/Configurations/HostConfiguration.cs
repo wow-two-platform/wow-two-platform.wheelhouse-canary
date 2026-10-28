@@ -36,11 +36,12 @@ public static partial class HostConfiguration
             .AddControllers();
     }
 
-    /// <summary>Applies pending migrations, then configures middleware and endpoints.</summary>
+    /// <summary>Runs startup tasks, then configures middleware and endpoints.</summary>
     /// <param name="app">The built web application to configure.</param>
     public static async Task<WebApplication> ConfigureAsync(this WebApplication app)
     {
-        // Create the database if missing and apply pending SQL migrations before serving — advisory-locked.
+        // A local run (Development, no DEPLOY_ENVIRONMENT) creates the database and applies pending SQL migrations; a
+        // deployed boot only verifies levels read-only and refuses to start behind, since the deploy's migrate step applies.
         await app.Services.MigrateBespokeOnStartupAsync(app.Lifetime.ApplicationStopping);
 
         // SDK pipeline: secure headers, compression, the SPA bundle, /health (database readiness) and the SPA fallback.
