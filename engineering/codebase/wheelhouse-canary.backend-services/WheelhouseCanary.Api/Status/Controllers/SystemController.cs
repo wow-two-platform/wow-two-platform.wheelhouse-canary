@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using WheelhouseCanary.Api.Status.Models;
 using WoW.Two.Sdk.Beta.Be.Web.Contracts;
 
@@ -10,7 +9,7 @@ namespace WheelhouseCanary.Api.Status.Controllers;
 /// <summary>Exposes system status over HTTP.</summary>
 [ApiController]
 [Route("api/system")]
-public sealed class SystemController(IOptions<CanarySettings> settings) : ControllerBase
+public sealed class SystemController(CanarySettings settings) : ControllerBase
 {
     /// <summary>Holds the name the service reports.</summary>
     private const string ServiceName = "wheelhouse-canary";
@@ -29,7 +28,7 @@ public sealed class SystemController(IOptions<CanarySettings> settings) : Contro
             Service = ServiceName,
             Status = "ok",
             Version = version,
-            Label = settings.Value.Label,
+            Label = settings.Label,
         };
 
         return Ok(ApiResponse<SystemStatusDto>.Ok(status));

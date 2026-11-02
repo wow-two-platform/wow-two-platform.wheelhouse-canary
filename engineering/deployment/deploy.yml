@@ -36,6 +36,12 @@ verify:
 migrate:
   - service: canary
     command: [dotnet, WheelhouseCanary.Api.dll, migrate]
+# The config check step (pipelines v0.15.0): after migrate and before the restart, Wheelhouse runs the image's be sdk
+# `config check` in a one-off container with the settings the deploy applies. It proves a missing Canary:Label or an
+# unknown key under Canary stops the deploy with the old release still serving.
+configCheck:
+  - service: canary
+    command: [dotnet, WheelhouseCanary.Api.dll, config, check]
 # One private site; Wheelhouse binds it to the environment's tailnet host (pipelines v0.8.0, descriptor 2).
 sites:
   app: { primary: true, exposure: private }

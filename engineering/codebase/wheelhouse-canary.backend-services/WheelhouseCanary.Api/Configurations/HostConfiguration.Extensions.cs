@@ -5,6 +5,8 @@ using WheelhouseCanary.Persistence.DataContexts;
 using WheelhouseCanary.Persistence.Repositories;
 using WoW.Two.Sdk.Beta.Be.Data;
 using WoW.Two.Sdk.Beta.Be.Data.Migrations.Bespoke;
+using WoW.Two.Sdk.Beta.Be.Foundation.Configuration.ConfigCheck;
+using WoW.Two.Sdk.Beta.Be.Foundation.Options;
 using WoW.Two.Sdk.Beta.Be.Mediator;
 using WoW.Two.Sdk.Beta.Be.Mediator.ExceptionHandling;
 using WoW.Two.Sdk.Beta.Be.Mediator.Logging;
@@ -45,10 +47,14 @@ public static partial class HostConfiguration
         return builder;
     }
 
-    /// <summary>Binds the canary's own per-environment settings.</summary>
+    /// <summary>Binds the canary's own per-environment settings and declares <c>Canary</c> its root, so <c>config check</c> and a deployed boot refuse a missing label or an unknown key.</summary>
     private static WebApplicationBuilder AddCanarySettings(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<CanarySettings>(builder.Configuration.GetSection(CanarySettings.SectionName));
+        builder.Services.AddValidatedSettings<CanarySettings>(builder.Configuration, CanarySettings.SectionName, rules => rules
+            .ValidateSetting(nameof(CanarySettings.Label), "required",
+                settings => !string.IsNullOrWhiteSpace(settings.Label),
+                $"{CanarySettings.SectionName}:{nameof(CanarySettings.Label)} is required: the label this environment reports, such as dev or prod."));
+        builder.Services.AddSettingsRoot(CanarySettings.SectionName);
         return builder;
     }
 

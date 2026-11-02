@@ -20,10 +20,11 @@ engineering/
 
 | Flow | Where |
 |---|---|
-| CI, image build and publish | `.github/workflows/publish-docker-image.yml` → shared `delivery.yml@v0.12.0` (checks, then publish; docs-only pushes run nothing); no deploy job |
+| CI, image build and publish | `.github/workflows/publish-docker-image.yml` → shared `delivery.yml@v0.15.0` (checks, then publish; docs-only pushes run nothing); no deploy job |
 | Release bundle and version | newest `version-track/v{X.Y}`; the page and `GET /api/system/status` report the running version |
 | Per-environment settings | `Canary:Label` and the connection string, from the environment's settings file |
 | Database and migrations | two SQL migrations in `WheelhouseCanary.Persistence/Migrations`, applied by the image's `migrate` step; a deployed boot only verifies them |
+| Settings check | the image's `config check` step refuses a missing `Canary:Label` before any restart; a deployed boot runs the same check |
 | Health and rollout checks | `GET /health` answers 200 only while the database answers |
 | Private site | one `app` site, `exposure: private`, served at `/` and `/api` (descriptor 2) |
 

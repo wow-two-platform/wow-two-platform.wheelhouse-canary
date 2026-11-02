@@ -1,19 +1,8 @@
 using WheelhouseCanary.Api.Configurations;
-using WoW.Two.Sdk.Beta.Be.Data;
+using WoW.Two.Sdk.Beta.Be.Meta;
 
-// Build and configure the host.
-var builder = WebApplication.CreateBuilder(args);
-builder.Configure();
+// Answer a verb, or build, configure and serve the host. `migrate` and `config check` are the be sdk's own: each runs
+// on the built host and exits with its code before any startup work runs.
+return await ServiceHost.RunAsync(args, builder => builder.Configure(), app => app.ConfigureAsync());
 
-// Build and configure the app; `migrate <verb>` exits with the verb's code before any startup work runs.
-var app = builder.Build();
-if (MigrateCommand.IsCommand(args))
-    return await app.RunMigrateCommandAsync(args);
-await app.ConfigureAsync();
-
-// Run.
-await app.RunAsync();
-return 0;
-
-// Opens the top-level Program to the E2E test host.
 public partial class Program;
